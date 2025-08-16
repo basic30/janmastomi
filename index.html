@@ -206,18 +206,6 @@
     }
 
     /* === AUDIO CONTROL === */
-    #mute-toggle {
-        position: fixed; bottom: 20px; left: 20px;
-        background: rgba(255, 215, 0, 0.7);
-        border: none; border-radius: 50%;
-        width: 50px; height: 50px;
-        font-size: 1.5rem;
-        cursor: none; z-index: 100;
-        transition: all 0.3s;
-    }
-    #mute-toggle:hover {
-        background: gold; transform: scale(1.1);
-    }
     
     /* ======================================= */
     /* === RESPONSIVE DESIGN FOR SMALL SCREENS === */
@@ -273,7 +261,6 @@
 </div>
 
 <audio id="background-music" src="a.mp3" loop></audio>
-<button id="mute-toggle">🔇</button>
 
 <canvas id="cursor-trail"></canvas>
 
@@ -286,7 +273,15 @@ window.addEventListener('load', () => {
         preloader.style.display = 'none';
         document.getElementById('background-music').play().catch(e => console.log("Audio autoplay was blocked."));
     }, 1000);
-
+function enableAudioOnce() {
+    backgroundAudio.play().catch(() => {});
+    document.removeEventListener('click', enableAudioOnce);
+    document.removeEventListener('touchstart', enableAudioOnce);
+    document.removeEventListener('keydown', enableAudioOnce);
+}
+document.addEventListener('click', enableAudioOnce);
+document.addEventListener('touchstart', enableAudioOnce);
+document.addEventListener('keydown', enableAudioOnce);
     const container = document.querySelector('.container');
     const body = document.body;
 
@@ -435,4 +430,5 @@ window.addEventListener('load', () => {
 </script>
 
 </body>
+
 </html>
